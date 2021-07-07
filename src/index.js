@@ -3,10 +3,38 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {Provider} from "react-redux";
+import {createStore} from "redux";
+import {BrowserRouter as Router} from "react-router-dom";
+
+const initialState = {
+    users: [],
+    posts: [],
+    comments: []
+}
+
+const allReducer = (state = initialState, action) => {
+    switch (action.type){
+        case "USERS":
+            return {...state, users: action.payload}
+        case "POSTS":
+            return {...state, posts: action.payload}
+        case "COMMENTS":
+            return {...state, comments: action.payload}
+        default:
+            return state
+    }
+}
+
+const store = createStore(allReducer);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Provider store={store}>
+          <Router>
+            <App />
+          </Router>
+      </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
